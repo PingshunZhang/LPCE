@@ -8,3 +8,36 @@ Pingshun Zhang, Enyu Che, Yinan Chen, Bingyao Huang, Haibin Ling and Jingwei Qu.
 
 It contains the training and evaluation procedures in the paper.
 
+## Requirements
+* **[Python](https://www.python.org/)** (>= 3.10.12)
+* **[PyTorch](https://pytorch.org/)** (>= 2.0.1)
+* **[PyG](https://www.pyg.org/)** (>= 2.3.1)
+
+## Dataset
+Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e16e39781d2703) dataset and extract it to the folder `data`.
+
+## Evaluation
+Download the [trained model](https://higa.teracloud.jp/share/11e103bcb9e85fe7) into the folder `trained_models`. Then run evaluation:
+```bash
+python test.py experiments/amil.json
+```
+
+## Training
+Run training:
+```bash
+python train.py experiments/amil.json
+```
+
+## Citation
+```text
+@article{zhang2026graph,
+ title={Graph Transformer for Label Placement},
+ author={Zhang, Pingshun and Che, Enyu and Chen, Yinan and Huang, Bingyao and Ling, Haibin and Qu, Jingwei},
+ journal={IEEE Transactions on Visualization and Computer Graphics},
+ volume={},
+ number={},
+ pages={},
+ year={2026},
+ doi={}
+}
+```
