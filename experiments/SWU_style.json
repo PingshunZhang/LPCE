@@ -1,0 +1,21 @@
+{
+  "DATASET_NAME": "SWU",
+  "model_dir": "trained_style_models",
+  "save_checkpoint": true,
+  "RANDOM_SEED": 123,
+  "warmstart_path": null,
+  "TRAIN": {
+    "STATISTIC_STEP": 20,
+    "BATCH_SIZE": 16,
+    "EPOCH_ITERS": 430,
+    "LR": 0.0001,
+    "lr_schedule": "long_halving",
+    "SAMPLES": null
+  },
+  "EVAL": {
+    "BATCH_SIZE": 1,
+    "SAMPLES": null,
+    "STATISTIC_STEP": 20
+  },
+  "evaluate_only": false
+}
