@@ -2,7 +2,6 @@
 
 <div align=center><img src="examples/introduction.jpg" alt="introduction" height="500"/></div>
 
-
 This repository is the implementation of the paper:
 
 Pingshun Zhang, Enyu Che, Yinan Chen, Bingyao Huang, Haibin Ling and Jingwei Qu. [Mixture of Cluster-guided Experts for Retrieval-Augmented Label Placement](https://jingweiqu.github.io/project/LPCE/index.html). *TVCG*, 2026.
@@ -18,15 +17,24 @@ It contains the training and evaluation procedures in the paper.
 Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e16e39781d2703) dataset and extract it to the folder `data`.
 
 ## Evaluation
-Download the [trained model](https://higa.teracloud.jp/share/11e103bcb9e85fe7) into the folder `trained_models`. Then run evaluation:
+#Reference feature extractor evaluation:
 ```bash
-python test.py experiments/amil.json
+python test_style.py experiments/SWU_style.json
+```
+#Run evaluation:
+```bash
+python test.py experiments/SWU.json
 ```
 
+
 ## Training
-Run training:
+#Reference feature extractor training:
 ```bash
-python train.py experiments/amil.json
+python train_style.py experiments/SWU_style.json
+```
+#Run training:
+```bash
+python train.py experiments/SWU.json
 ```
 
 ## Citation
