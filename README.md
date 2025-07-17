@@ -39,7 +39,7 @@ python train.py experiments/SWU.json
 
 ## Citation
 ```text
-@article{zhang2026graph,
+@article{zhang2026mixture,
  title={Mixture of Cluster-guided Experts for Retrieval-Augmented Label Placement},
  author={Zhang, Pingshun and Che, Enyu and Chen, Yinan and Huang, Bingyao and Ling, Haibin and Qu, Jingwei},
  journal={IEEE Transactions on Visualization and Computer Graphics},
