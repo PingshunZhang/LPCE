@@ -17,22 +17,22 @@ It contains the training and evaluation procedures in the paper.
 Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e16e39781d2703) dataset and extract it to the folder `data`.
 
 ## Evaluation
-###Reference feature extractor evaluation:
+Reference feature extractor evaluation:
 ```bash
 python test_style.py experiments/SWU_style.json
 ```
-###Run evaluation:
+Run evaluation:
 ```bash
 python test.py experiments/SWU.json
 ```
 
 
 ## Training
-#Reference feature extractor training:
+Reference feature extractor training:
 ```bash
 python train_style.py experiments/SWU_style.json
 ```
-#Run training:
+Run training:
 ```bash
 python train.py experiments/SWU.json
 ```
