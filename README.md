@@ -1,6 +1,6 @@
 # Mixture of Cluster-guided Experts for Retrieval-Augmented Label Placement
 
-<img src="examples/introduction.jpg" alt="introduction" height="800"/>
+<img src="examples/introduction.jpg" alt="introduction" height="500"/>
 
 This repository is the implementation of the paper:
 
