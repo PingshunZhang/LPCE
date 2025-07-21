@@ -7,6 +7,7 @@ import time
 from collections.abc import Mapping
 from copy import deepcopy
 from warnings import warn
+from torchvision.ops import box_iou
 import shutil
 import random
 import numpy as np
@@ -51,6 +52,52 @@ def PCK(p_src, p_wrp, L_pck, alpha=0.05):
   pck = torch.mean(correct_points.float())
   return pck
 
+def IOU(points_gt, points_pred, label_size):
+  points_gt_1 = points_gt - label_size/2
+  points_gt_2 = points_gt + label_size/2
+  box_gt = torch.concatenate((points_gt_1,points_gt_2), dim=-1)
+  points_pred_1 = points_pred - label_size/2
+  points_pred_2 = points_pred + label_size/2
+  box_pred = torch.concatenate((points_pred_1,points_pred_2), dim=-1)
+  iou = []
+  for i in range(box_gt.shape[0]):
+    iou.append(box_iou(box_gt[i,:].unsqueeze(0), box_pred[i,:].unsqueeze(0)))
+  return torch.cat(iou).mean()
+
+def Overlap(points_pred, label_size):
+  points_pred_1 = points_pred - label_size/2
+  points_pred_2 = points_pred + label_size/2
+  box_pred = torch.concatenate((points_pred_1,points_pred_2), dim=-1)
+  if box_pred.shape[0] == 1:
+     label_iou = torch.tensor(0, device='cuda:0')
+  else:
+    iou = []
+    for i in range(box_pred.shape[0]):
+      for j in range(i+1, box_pred.shape[0]):
+        iou.append(box_iou(box_pred[i].unsqueeze(0),box_pred[j].unsqueeze(0)))
+    label_iou = torch.cat(iou).mean()
+  return label_iou
+
+def LV(points_pred, label_size):
+  points_pred_1 = points_pred - label_size/2
+  points_pred_2 = points_pred + label_size/2
+  box_pred = torch.concatenate((points_pred_1,points_pred_2), dim=-1)
+  if box_pred.shape[0] == 1:
+     lv_mean = torch.tensor(1, device='cuda:0')
+  else:
+    lvs = []
+    for i in range(box_pred.shape[0]):
+      lv = torch.tensor(1.00, device='cuda:0').unsqueeze(0).unsqueeze(0)
+      for j in range(box_pred.shape[0]):
+        if i != j:
+           current_iou = box_iou(box_pred[i].unsqueeze(0),box_pred[j].unsqueeze(0))
+           if current_iou > 0:
+            lv = torch.tensor(0.00, device='cuda:0').unsqueeze(0).unsqueeze(0)
+            break
+      lvs.append(lv)
+    lv_mean = torch.cat(lvs).mean()
+  return lv_mean
+
 def compute_pck(graphs, im_sizes, L_pcks):
   pck = []
   alpha = 0.05
@@ -64,6 +111,26 @@ def compute_pck(graphs, im_sizes, L_pcks):
 
   return pck
 
+def compute_metrics(graphs, im_sizes, L_pcks):
+  pck = []
+  iou = []
+  lv = []
+  overlap = []
+  alpha = 0.05
+  for i in range(len(graphs)):
+    points_norm_pred = graphs[i].x + graphs[i].y[:, 2:4]
+    points_norm_gt = graphs[i].y[:, :2] + graphs[i].y[:, 2:4]
+    im_size = im_sizes[i]
+    points_pred = unnormalize_points(points_norm_pred, im_size)
+    points_gt = unnormalize_points(points_norm_gt, im_size)
+    pck.append(PCK(points_gt, points_pred, L_pcks[i], alpha).cpu().numpy())
+
+    label_size = unnormalize_points(graphs[i].y[:, 4:6], im_size)
+    iou.append(IOU(points_gt, points_pred, label_size).cpu().numpy())
+    lv.append(LV(points_pred, label_size).cpu().numpy())
+    overlap.append(Overlap(points_pred, label_size).cpu().numpy())
+
+  return pck, iou, lv, overlap
 
 class ParamDict(dict):
   """ An immutable dict where elements can be accessed with a dot"""
