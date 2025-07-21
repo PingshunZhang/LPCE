@@ -16,6 +16,9 @@ It contains the training and evaluation procedures in the paper.
 ## Dataset
 Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e16e39781d2703) dataset and extract it to the folder `data`.
 
+## Dreamsim
+We adopt DreamSim to measure image similarity between the query and candidate samples. The project is open-source. You can download the [code](https://github.com/ssundaram21/dreamsim).
+
 ## Evaluation
 Reference feature extractor evaluation:
 ```bash
@@ -36,6 +39,9 @@ Run training:
 ```bash
 python train.py experiments/SWU.json
 ```
+
+## note
+From one_style_feature to three_style_features, just stack them based on Dreamsim.
 
 ## Citation
 ```text
