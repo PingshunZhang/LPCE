@@ -40,8 +40,8 @@ Run training:
 python train.py experiments/SWU.json
 ```
 
-## note
-From one_style_feature to three_style_features, just stack them based on Dreamsim.
+## Note
+From one_style_feature to three_style_features, just stack them based on Dreamsim results.
 
 ## Citation
 ```text
