@@ -100,7 +100,7 @@ def train_eval_model(model, criterion, optimizer, dataloader, num_epochs, start_
     best_loss_epoch = np.argmin(loss_table) + 1
 
 
-    print('PCK {:.4f} with minimum loss {:.4f} at epoch {}/{}'.
+    print('minimum loss {:.4f} at epoch {}/{}'.
           format(np.min(loss_table), best_loss_epoch, num_epochs))
     print()
 
