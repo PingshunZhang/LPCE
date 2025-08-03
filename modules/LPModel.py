@@ -21,6 +21,8 @@ class LPModel(nn.Module):
             edge_dim: int,
             node_hid_dim: int,
             edge_hid_dim: int,
+            num_experts: int,
+            expert_hid_dim: int,
             output_dim: int,
             disable_edge_updates: bool,
             train_fe: bool,
@@ -37,6 +39,8 @@ class LPModel(nn.Module):
         self.edge_dim = edge_dim
         self.node_hid_dim = node_hid_dim
         self.edge_hid_dim = edge_hid_dim
+        self.num_experts = num_experts
+        self.expert_hid_dim = expert_hid_dim
         self.output_dim = output_dim
 
         self.train_fe = train_fe
@@ -55,6 +59,8 @@ class LPModel(nn.Module):
                                          self.edge_dim,
                                          self.node_hid_dim,
                                          self.edge_hid_dim,
+                                         self.num_experts,
+                                         self.expert_hid_dim,
                                          self.output_dim,
                                          self.disable_edge_updates,
                                          self.backbone)
@@ -277,6 +283,8 @@ class LPGNN(nn.Module):
             edge_dim: int,
             node_hid_dim: int,
             edge_hid_dim: int,
+            num_experts: int,
+            expert_hid_dim: int,
             output_dim: int,
             disable_edge_updates: bool,
             backbone: str
@@ -291,6 +299,8 @@ class LPGNN(nn.Module):
         self.edge_dim = edge_dim
         self.node_hid_dim = node_hid_dim
         self.edge_hid_dim = edge_hid_dim
+        self.num_experts = num_experts
+        self.expert_hid_dim = expert_hid_dim
         self.output_dim = output_dim
         self.backbone = backbone
 
@@ -316,6 +326,8 @@ class LPGNN(nn.Module):
                         self.edge_dim,
                         self.node_hid_dim,
                         self.edge_hid_dim,
+                        self.num_experts,
+                        self.expert_hid_dim,
                         self.disable_edge_updates)
 
         self.RD = RD(self.n_heads, self.node_dim)
@@ -434,6 +446,8 @@ class MoE(nn.Module):
             edge_dim: int,
             node_hid_dim: int,
             edge_hid_dim: int,
+            num_experts: int,
+            expert_hid_dim: int,
             disable_edge_updates: bool,
     ):
         super().__init__()
@@ -443,8 +457,8 @@ class MoE(nn.Module):
         self.edge_dim = edge_dim
         self.node_hid_dim = node_hid_dim
         self.edge_hid_dim = edge_hid_dim
-
-        self.num_experts = 4  
+        self.num_experts = num_experts
+        self.expert_hid_dim = expert_hid_dim
 
 
         self.node_attn_ln1 = LayerNorm(self.node_dim)
@@ -454,7 +468,8 @@ class MoE(nn.Module):
         self.node_ffn_ln = LayerNorm(self.node_dim)
         self.node_ffn_fc1 = Linear(self.node_dim, self.node_hid_dim)
         self.node_ffn_fc2 = Linear(self.node_hid_dim, self.node_dim)
-        self.experts = nn.ModuleList([FFN(self.node_dim,self.node_hid_dim) for _ in range(self.num_experts)])
+        self.experts = nn.ModuleList([FFN(self.node_dim,self.expert_hid_dim) for _ in range(self.num_experts)])
+        self.edge_experts = nn.ModuleList([FFN(self.edge_dim,self.expert_hid_dim) for _ in range(self.num_experts)])
 
         self.moe_node_ffn_ln = LayerNorm(self.node_dim)
         self.moe_node_ffn_fc1 = Linear(self.node_dim, self.node_hid_dim)
@@ -522,7 +537,7 @@ class MoE(nn.Module):
         edge_tensors_new = self.edge_ffn_fc2(
             F.relu(self.edge_ffn_fc1(self.edge_ffn_ln(edge_tensors_prime)))) + edge_tensors_prime
         
-        all_edge_tensors = torch.stack([expert(edge_tensors_new) for expert in self.experts], dim = 1)
+        all_edge_tensors = torch.stack([edge_expert(edge_tensors_new) for edge_expert in self.edge_experts], dim = 1)
         moe_edge_tensors = (all_edge_scores * all_edge_tensors).sum(dim=1)
 
         edge_tensors_new = edge_tensors_new + moe_edge_tensors
