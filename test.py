@@ -31,7 +31,7 @@ if __name__ == "__main__":
     import os
 
     model_dir = 'trained_models'
-    model_name = 'params.pt'
+    model_name = 'trained_models.pt'
 
     with open(os.path.join(model_dir, "test_settings.json"), "w") as f:
         json.dump(cfg, f)
@@ -45,18 +45,21 @@ if __name__ == "__main__":
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         model = LPModel(n_layers=3,
-                        n_heads=16,
-                        node_input_dim=4,
-                        edge_input_dim=6,
-                        node_dim=288,
-                        edge_dim=288,
-                        node_hid_dim=96,
-                        edge_hid_dim=48,
-                        output_dim=2,
-                        disable_edge_updates=False,
-                        train_fe=False,
-                        normalization=True,
-                        backbone='resnet101')
+                            n_heads=16,
+                            node_input_dim=4,
+                            edge_input_dim=6,
+                            node_dim=288,
+                            edge_dim=288,
+                            node_hid_dim=96,
+                            edge_hid_dim=48,
+                            num_experts=4,
+                            expert_hid_dim=96,
+                            output_dim=2,
+                            disable_edge_updates=False,
+                            train_fe=True,
+                            # train_fe=False,
+                            normalization=True,
+                            backbone='resnet101')
         model = model.cuda()
 
         eval_pck = eval_model(model, dataloader, model_path=model_dir + '/' + model_name)

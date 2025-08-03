@@ -153,6 +153,8 @@ if __name__ == "__main__":
                             edge_dim=288,
                             node_hid_dim=96,
                             edge_hid_dim=48,
+                            num_experts=4,
+                            expert_hid_dim=96,
                             output_dim=2,
                             disable_edge_updates=False,
                             train_fe=True,
