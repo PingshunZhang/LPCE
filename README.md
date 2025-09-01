@@ -14,7 +14,7 @@ It contains the training and evaluation procedures in the paper.
 * **[PyG](https://www.pyg.org/)** (>= 2.3.1)
 
 ## Dataset
-Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e16e39781d2703) dataset and extract it to the folder `data`.
+Download the [SWU-AMIL](https://higa.teracloud.jp/share/11e166714db7d0e6) dataset and extract it to the folder `data`.
 
 ## Dreamsim
 We adopt DreamSim to measure image similarity between the query and candidate samples. The project is open-source. You can download the [code](https://github.com/ssundaram21/dreamsim).
