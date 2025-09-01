@@ -25,6 +25,7 @@ Reference feature extractor evaluation:
 python test_style.py experiments/SWU_style.json
 ```
 Run evaluation:
+
 We have provided [trained model parameters](https://higa.teracloud.jp/share/11e18831e486e091).
 ```bash
 python test.py experiments/SWU.json
