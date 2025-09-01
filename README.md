@@ -26,7 +26,7 @@ python test_style.py experiments/SWU_style.json
 ```
 Run evaluation:
 
-We have provided trained model parameters( [trained_models.pt](https://higa.teracloud.jp/share/11e18831e486e091) ).
+We have provided trained model parameters[(trained_models.pt](https://higa.teracloud.jp/share/11e18831e486e091)).
 ```bash
 python test.py experiments/SWU.json
 ```
