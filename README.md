@@ -25,10 +25,10 @@ Reference feature extractor evaluation:
 python test_style.py experiments/SWU_style.json
 ```
 Run evaluation:
+We have provided [trained model parameters](https://higa.teracloud.jp/share/11e18831e486e091).
 ```bash
 python test.py experiments/SWU.json
 ```
-
 
 ## Training
 Reference feature extractor training:
@@ -41,7 +41,7 @@ python train.py experiments/SWU.json
 ```
 
 ## Note
-From one_style_feature to three_style_features, just stack them based on Dreamsim results.
+From `one_style_feature` to `three_style_features`, just stack them based on Dreamsim results.
 
 ## Citation
 ```text
