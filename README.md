@@ -47,13 +47,10 @@ From `one_style_feature` to `three_style_features`, just stack them based on Dre
 ## Citation
 ```text
 @article{zhang2026mixture,
- title={Mixture of Cluster-guided Experts for Retrieval-Augmented Label Placement},
- author={Zhang, Pingshun and Che, Enyu and Chen, Yinan and Huang, Bingyao and Ling, Haibin and Qu, Jingwei},
- journal={IEEE Transactions on Visualization and Computer Graphics},
- volume={},
- number={},
- pages={},
- year={2026},
- doi={}
+        title={Mixture of Cluster-guided Experts for Retrieval-Augmented Label Placement},
+        author={Zhang, Pingshun and Che, Enyu and Chen, Yinan and Huang, Bingyao and Ling, Haibin and Qu, Jingwei},
+        journal={IEEE Transactions on Visualization and Computer Graphics},
+        year={2026}
+        doi={10.1109/TVCG.2025.3642518}
 }
 ```
